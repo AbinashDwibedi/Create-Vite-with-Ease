@@ -1,0 +1,54 @@
+#!/bin/bash
+starting_func(){
+echo "process started ... "
+echo "node Js version > 20 is installed ?"
+
+read -p "select an option(y/n): " check_input
+if [ "$check_input" = "y" ]
+then 
+	echo "proceding to the next step..."
+else 
+	echo "cancelling the process..."
+	return 
+fi
+read -p "Enter the name of your frontend folder: " frontEnd_name
+mkdir $frontEnd_name
+echo "Frontend Created... "
+cd $frontEnd_name
+echo "running vite@latest ..."
+npm create vite@latest .
+echo "Installing all the necessary packages..."
+npm install
+echo "Deleting all the unnecessary thing's from the bundler"
+cd public 
+rm *.svg
+cd ..
+cd src 
+cd assets
+rm *svg
+cd ..
+rm App.css index.css 
+touch App.css index.css
+rm  App.jsx 
+
+appInside="
+import './App.css'
+
+function App() {
+  return (
+    <>
+      <div> Start Programming! </div>
+    </>
+  )
+}
+
+export default App "
+
+echo "$appInside" > App.jsx
+echo "Removal Completed..."
+echo "Running the Devlopment Server..."
+npm run dev
+
+}
+starting_func
+exit 0
